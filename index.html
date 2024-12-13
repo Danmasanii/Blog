@@ -1,0 +1,118 @@
+Blog App Structure
+1. Index.html (main entry point)
+2. Styles.css (global styling)
+3. Script.js (global JavaScript)
+4. Posts folder (contains individual blog posts)
+5. Header.html (header template)
+6. Footer.html (footer template)
+
+Index.html
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header id="header"></header>
+    <main id="main">
+        <!-- Posts will be rendered here -->
+    </main>
+    <footer id="footer"></footer>
+    <script src="script.js"></script>
+</body>
+</html>
+```
+
+Styles.css
+```
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#header {
+    background-color: #333;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+}
+
+#main {
+    max-width: 800px;
+    margin: 2em auto;
+    padding: 2em;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#footer {
+    background-color: #333;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+    clear: both;
+}
+```
+
+Script.js
+```
+// Get elements
+const header = document.getElementById('header');
+const main = document.getElementById('main');
+const footer = document.getElementById('footer');
+
+// Load posts
+const posts = [
+    {
+        title: 'Post 1',
+        content: 'This is the content of post 1.'
+    },
+    {
+        title: 'Post 2',
+        content: 'This is the content of post 2.'
+    }
+];
+
+// Render posts
+posts.forEach((post, index) => {
+    const postHTML = `
+        <h2>${post.title}</h2>
+        <p>${post.content}</p>
+    `;
+    main.innerHTML += postHTML;
+});
+
+// Add event listener for new post submission
+const form = document.createElement('form');
+form.innerHTML = `
+    <input type="text" id="title" placeholder="Title">
+    <textarea id="content" placeholder="Content"></textarea>
+    <button type="submit">Submit</button>
+`;
+main.appendChild(form);
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const title = document.getElementById('title').value;
+    const content = document.getElementById('content').value;
+    const newPost = {
+        title,
+        content
+    };
+    posts.push(newPost);
+    main.innerHTML = '';
+    posts.forEach((post, index) => {
+        const postHTML = `
+            <h2>${post.title}</h2>
+            <p>${post.content}</p>
+        `;
+        main.innerHTML += postHTML;
+    });
+});
+```
